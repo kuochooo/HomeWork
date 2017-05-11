@@ -1,0 +1,96 @@
+﻿@model IEnumerable<HomeWork.Models.客戶聯絡人>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>客戶聯絡人管理</h2>
+
+@using (Ajax.BeginForm("Index", "CusContact", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "table2" }))
+{
+    <div class="form-group">
+        @Html.Label("輸入搜尋字串")
+        <div>
+            @Html.TextBox("search_Str")
+        </div>
+    </div>
+    <div class="div-inline">
+        @Html.RadioButton("searchState", 0, new { @id = "radio1", @checked = "true" })
+        <label for="radio1">
+            姓名
+        </label>
+    </div>
+    <div class="div-inline">
+        @Html.RadioButton("searchState", 1, new { @id = "radio2" })
+        <label for="radio2">
+            客戶名稱
+        </label>
+    </div>
+    <div class="div-inline">
+        @Html.RadioButton("searchState", 2, new { @id = "radio3" })
+        <label for="radio2">
+            手機
+        </label>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="搜尋" class="btn btn-default" />
+        </div>
+    </div>
+}
+<p>
+    @Ajax.ActionLink("建立...", "Create", "CusContact", new AjaxOptions { UpdateTargetId = "table2" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.職稱)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.姓名)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.手機)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.電話)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.職稱)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.姓名)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.手機)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.電話)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.客戶資料.客戶名稱)
+        </td>
+        <td>
+            @Ajax.ActionLink("編輯", "Edit", "CusContact", new { id = item.Id }, new AjaxOptions { UpdateTargetId = "table2" })
+            @Ajax.ActionLink("詳細", "details", "CusContact", new { id = item.Id }, new AjaxOptions { UpdateTargetId = "table2" })
+            @Ajax.ActionLink("刪除", "delete", "CusContact", new { id = item.Id }, new AjaxOptions { UpdateTargetId = "table2" })
+        </td>
+    </tr>
+}
+
+</table>

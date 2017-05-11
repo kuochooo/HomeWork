@@ -1,0 +1,95 @@
+﻿@model IEnumerable<HomeWork.Models.客戶銀行資訊>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>客戶銀行帳戶管理</h2>
+@using (Ajax.BeginForm("Index", "CusBank", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "table3" }))
+{
+    <div class="form-group">
+        @Html.Label("輸入搜尋字串")
+        <div>
+            @Html.TextBox("search_Str")
+        </div>
+    </div>
+    <div class="div-inline">
+        @Html.RadioButton("searchState", 0, new { @id = "radio1", @checked = "true" })
+        <label for="radio1">
+            客戶名稱
+        </label>
+    </div>
+    <div class="div-inline">
+        @Html.RadioButton("searchState", 1, new { @id = "radio2" })
+        <label for="radio2">
+            銀行名稱
+        </label>
+    </div>
+    <div class="div-inline">
+        @Html.RadioButton("searchState", 2, new { @id = "radio3" })
+        <label for="radio2">
+            帳戶名稱
+        </label>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="搜尋" class="btn btn-default" />
+        </div>
+    </div>
+}
+<p>
+    @Ajax.ActionLink("建立...", "Create", "CusBank", new AjaxOptions { UpdateTargetId = "table3" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.銀行名稱)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.銀行代碼)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.分行代碼)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.帳戶名稱)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.帳戶號碼)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.銀行名稱)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.銀行代碼)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.分行代碼)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.帳戶名稱)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.帳戶號碼)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.客戶資料.客戶名稱)
+        </td>
+        <td>
+            @Ajax.ActionLink("編輯", "Edit", "CusBank", new { id = item.Id }, new AjaxOptions { UpdateTargetId = "table3" })
+            @Ajax.ActionLink("詳細", "details", "CusBank", new { id = item.Id }, new AjaxOptions { UpdateTargetId = "table3" })
+            @Ajax.ActionLink("刪除", "delete", "CusBank", new { id = item.Id }, new AjaxOptions { UpdateTargetId = "table3" })
+        </td>
+    </tr>
+}
+
+</table>

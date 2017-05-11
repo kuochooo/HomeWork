@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "search";
+}
+
+<h2>尋找...</h2>
+
+@using (Ajax.BeginForm("search", "CusContact", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "table1" }))
+{
+<div class="form-group">
+    @Html.Label("輸入搜尋字串")
+    <div>
+        @Html.TextBox("search_Str", new { @class = "form-control"})
+    </div>
+</div>
+
+<div>
+    @Html.RadioButton("searchState", 0, new { @id = "radio1", @checked = "true" })
+    <label for="radio1">
+        姓名
+    </label>
+</div>
+<div>
+    @Html.RadioButton("searchState", 1, new { @id = "radio2" })
+    <label for="radio2">
+        客戶名稱
+    </label>
+</div>
+
+<div >
+    @Html.RadioButton("searchState", 2, new { @id = "radio3" })
+    <label for="radio2">
+        手機
+    </label>
+</div>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="搜尋" class="btn btn-default" />
+    </div>
+</div>
+
+}

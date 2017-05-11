@@ -1,0 +1,74 @@
+﻿@model HomeWork.Models.客戶聯絡人
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>客戶聯絡人</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.職稱)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.職稱)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.姓名)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.姓名)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.手機)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.手機)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.電話)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.電話)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Is刪除)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Is刪除)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.客戶資料.客戶名稱)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Ajax.ActionLink("編輯", "Details", "CusContact", new { id = Model.Id },new AjaxOptions { UpdateTargetId = "table2" }) |
+    @Ajax.ActionLink("回到清單頁", "Index","CusContact", new AjaxOptions { UpdateTargetId = "table2" })
+</p>
