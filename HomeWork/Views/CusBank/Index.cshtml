@@ -5,7 +5,7 @@
 }
 
 <h2>客戶銀行帳戶管理</h2>
-@using (Ajax.BeginForm("Index", "CusBank", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "table3" }))
+@using (Ajax.BeginForm("Index", "CusBank",new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "table3" }))
 {
     <div class="form-group">
         @Html.Label("輸入搜尋字串")

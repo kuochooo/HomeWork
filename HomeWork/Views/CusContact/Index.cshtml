@@ -1,4 +1,8 @@
-﻿@model IEnumerable<HomeWork.Models.客戶聯絡人>
+﻿@section breadcrump {
+    <li><a href="@Url.Action("Index", "CusContact")">客戶資料</a></li>
+}
+
+@model IEnumerable<HomeWork.Models.客戶聯絡人>
 
 @{
     ViewBag.Title = "Index";
@@ -6,39 +10,15 @@
 
 <h2>客戶聯絡人管理</h2>
 
-@using (Ajax.BeginForm("Index", "CusContact", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "table2" }))
+@using (Ajax.BeginForm("Index", "CusContact",new AjaxOptions(){ HttpMethod = "POST", UpdateTargetId = "table2" }))
 {
     <div class="form-group">
-        @Html.Label("輸入搜尋字串")
-        <div>
-            @Html.TextBox("search_Str")
-        </div>
+       @Html.DropDownList("客戶職稱", null, "--- 請選擇 ---", htmlAttributes: new { @class = "form-control", 職稱 = "職稱" }) 
     </div>
-    <div class="div-inline">
-        @Html.RadioButton("searchState", 0, new { @id = "radio1", @checked = "true" })
-        <label for="radio1">
-            姓名
-        </label>
-    </div>
-    <div class="div-inline">
-        @Html.RadioButton("searchState", 1, new { @id = "radio2" })
-        <label for="radio2">
-            客戶名稱
-        </label>
-    </div>
-    <div class="div-inline">
-        @Html.RadioButton("searchState", 2, new { @id = "radio3" })
-        <label for="radio2">
-            手機
-        </label>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="搜尋" class="btn btn-default" />
-        </div>
-    </div>
+    <input type="submit" value="篩選" class="btn btn-default" />
+    @ViewBag.職稱
 }
+
 <p>
     @Ajax.ActionLink("建立...", "Create", "CusContact", new AjaxOptions { UpdateTargetId = "table2" })
 </p>
@@ -65,7 +45,8 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.職稱)
@@ -92,5 +73,6 @@
         </td>
     </tr>
 }
-
+    
+    
 </table>

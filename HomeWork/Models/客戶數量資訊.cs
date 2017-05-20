@@ -21,8 +21,5 @@ namespace HomeWork.Models
         public bool 客戶刪除 { get; set; }
         public Nullable<bool> 帳戶刪除 { get; set; }
         public Nullable<bool> 聯絡人刪除 { get; set; }
-
-        public int 帳戶數量 { get; set; }
-        public int 聯絡人數量 { get; set; }
     }
 }

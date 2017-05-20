@@ -14,23 +14,31 @@ namespace HomeWork.Controllers
         // GET: CusContact
         客戶資料Entities db = new 客戶資料Entities();
         public ActionResult Index()
-        {
-            var data = db.客戶聯絡人.OrderBy(p => p.客戶Id).Where(p => p.Is刪除 == false);           
+        {          
+            var data = db.客戶聯絡人.OrderBy(p => p.客戶Id).Where(p => p.Is刪除 == false);
+            List<SelectListItem> selectlist = new List<SelectListItem>();
+            var searchstate = true;
+            foreach (var q in db.客戶聯絡人)
+            {
+                string 職稱 = q.職稱;
+                selectlist.Add(new SelectListItem() { Text =職稱, Value = 職稱,Selected=searchstate});
+                searchstate = false;
+            }
+
+            ViewBag.客戶職稱 = new SelectList(selectlist, "Text", "Value");
             return View(data);
         }
         [HttpPost]
-        public ActionResult Index(int? searchState, string search_str)
+        public ActionResult Index(string 客戶職稱)
         {
-            if (search_str != null)
+            if (客戶職稱 != null)
             {
-                var data = db.客戶聯絡人.Where(q => q.姓名.Contains(search_str));
-                if (searchState == 1)
-                { data = db.客戶聯絡人.Where(q => q.客戶資料.客戶名稱.Contains(search_str)); }
-                if (searchState == 2)
-                { data = db.客戶聯絡人.Where(q => q.手機.Contains(search_str)); }
+                var data = db.客戶聯絡人.Where(q => q.職稱 == 客戶職稱);
+                ViewBag.客戶職稱 = new SelectList(db.客戶聯絡人, "職稱", "職稱", 客戶職稱);
                 return View("Index", data);
             }
             return View();
+
         }
 
         public ActionResult ISearchndex(客戶聯絡人 data)
@@ -131,6 +139,32 @@ namespace HomeWork.Controllers
             return View(data);
         }
 
-        
+        public ActionResult 客戶聯絡人List()
+        {
+            var data = db.客戶聯絡人.OrderBy(p => p.Id);         
+            return View(data);
+        }
+        [HttpPost]
+        [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error_DbUpdateException")]
+        public ActionResult 客戶聯絡人List(UpdateVM[] items)
+        {
+            if (items !=null)
+            {
+                foreach (var item in items)
+                {
+                    var Cus = db.客戶聯絡人.Find(item.Id);
+                    Cus.職稱 = item.職稱;
+                    Cus.手機 = item.手機;
+                    Cus.電話 = item.電話;
+                }
+
+                db.Configuration.ValidateOnSaveEnabled = false;
+                db.SaveChanges();
+
+                return RedirectToAction("客戶聯絡人List");
+            }
+          
+            return View("客戶聯絡人List");
+        }
     }
 }

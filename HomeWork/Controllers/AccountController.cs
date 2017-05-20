@@ -12,9 +12,12 @@ using HomeWork.Models;
 
 namespace HomeWork.Controllers
 {
+    
+
     [Authorize]
     public class AccountController : Controller
     {
+        客戶資料Entities db = new 客戶資料Entities();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 

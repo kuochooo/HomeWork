@@ -1,34 +1,35 @@
-﻿@model IEnumerable<HomeWork.Models.客戶資料>
-
-@{
-    ViewBag.Title = "Index";
+﻿
+@section breadcrump {
+    <li><a href="@Url.Action("Index", "CusManage")">客戶資料</a></li>
 }
+
+
+
+@model IPagedList<HomeWork.Models.客戶資料>
+@using PagedList;
+@using PagedList.Mvc;
+<script src="/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+  $("#export").click(function () {
+        $.ajax({
+            url: "@Url.Action("cusDataExport")",
+            success: function (response, textStatus, jqXHR) {
+                window.location.href = '@Url.Action("cusDataExport", "CusManage")';
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+        });
+    });
+</script>
 
 @using (Ajax.BeginForm("Index", "CusManage", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "table1" }))
 {
     <div class="form-group">
-        @Html.Label("輸入搜尋字串")
-        <div>
-            @Html.TextBox("search_Str")
+        @Html.Label("篩選")
+        <div class="col-md-10">
+            @Html.DropDownList("客戶分類", null, "--請選擇--", htmlAttributes: new { @class = "form-control", id = "客戶分類" })
         </div>
-    </div>
-    <div class="div-inline">
-        @Html.RadioButton("searchState", 0, new { @id = "radio1", @checked = "true" })
-        <label for="radio1">
-            客戶名稱
-        </label>
-    </div>
-    <div class="div-inline">
-        @Html.RadioButton("searchState", 1, new { @id = "radio2" })
-        <label for="radio2">
-            統一編號
-        </label>
-    </div>
-    <div class="div-inline">
-        @Html.RadioButton("searchState", 2, new { @id = "radio3" })
-        <label for="radio2">
-            電話
-        </label>
     </div>
 
     <div class="form-group">
@@ -39,28 +40,35 @@
 }
 <div id="table">
     <h2>客戶資料管理</h2>
+    <div>
+        <button id="export">匯出成excel</button>
+    </div>
+
     <p>
         @Ajax.ActionLink("建立...", "Create", "CusManage", new AjaxOptions { UpdateTargetId = "table1" })
     </p>
 <table class="table" >
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.客戶名稱)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().客戶名稱)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.統一編號)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().客戶分類)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.電話)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().統一編號)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.傳真)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().電話)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.地址)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().傳真)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().地址)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Email)
         </th>
         <th></th>
     </tr>
@@ -69,6 +77,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.客戶名稱)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.客戶分類)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.統一編號)
@@ -94,7 +105,11 @@
 }
 
 </table>
+  
 </div>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+
 
 
 
